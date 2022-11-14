@@ -38,7 +38,7 @@ app.get('/login', (req, res) => {
 })
 
 app.get('/sign_up', (req, res) => {
-  res.sendFile(path.join(__dirname + '/templates/sign_up.html'));
+  res.sendFile(path.join(__dirname + '/templates/signup.html'));
 })
 
 app.get('/test', (req, res) => {

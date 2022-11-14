@@ -1,14 +1,20 @@
 body {
     background: #FFEEE1;
 }
+
+a {
+    text-decoration: none;
+}
+
 #logo {
     width: 90px;
     height: 90px;
 }
 
 #imgMetaMask {
-    width: 41.55px;
-    height: 38.79px;
+    width: 40px;
+    height: 40px;
+
 }
 
 #text-logo {
@@ -19,7 +25,9 @@ body {
     color: #423A3A;
 }
 
-#text-reg {
+#text-reg,
+#text-auth
+{
     font-family: 'Montserrat', sans-serif;
     font-size: 80px;
     font-weight: 800;
@@ -28,6 +36,8 @@ body {
 }
 
 .input {
+    outline:none;
+
     box-sizing: border-box;
     width: 350px;
     height: 60px;
@@ -62,24 +72,21 @@ body {
     color: #6E6363;
 }
 
-input[type="text"]
-{
+.buttonMask {
+    border: 3px solid #6E6363;
+    border-radius: 55px;
+
+    background-color: transparent;
+
     font-family: 'Montserrat', sans-serif;
     font-weight: 500;
     font-size: 22px;
 
-    color: #805F51;
+    color: #6E6363;
 }
 
-input[type="email"]
-{
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 500;
-    font-size: 22px;
-
-    color: #805F51;
-}
-
+input[type="text"],
+input[type="email"],
 input[type="password"]
 {
     font-family: 'Montserrat', sans-serif;
@@ -88,3 +95,181 @@ input[type="password"]
 
     color: #805F51;
 }
+
+#blockname,
+#blockpublic,
+#blockpurch
+{
+    position: relative;
+    width: 870px;
+    height: 260px;
+
+    background: #FFFFFF;
+    border-radius: 95.0366px;
+}
+
+#blockname:hover,
+#blockpublic:hover,
+#blockpurch:hover
+{
+    filter: drop-shadow(0px 25px 40px rgba(0, 0, 0, 0.25));
+}
+
+#NameUser {
+    font-family: 'Montserrat';
+    font-weight: 500;
+    font-size: 49px;
+
+    text-align: center;
+
+    color: #5C4B41;
+}
+
+hr {
+    width: 692px;
+    height: 0px;
+
+    border: 1px solid #8A7D7B;
+    box-shadow: 0px 2px 6px rgba(156, 120, 100, 0.85);
+}
+
+#idmask {
+    font-family: 'Montserrat';
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 24px;
+
+    text-align: center;
+
+    color: #483B3B;
+}
+
+#h2Public {
+    font-family: 'Montserrat';
+    font-weight: 400;
+    font-size: 39.0704px;
+    line-height: 48px;
+
+    text-align: center;
+
+    color: #5C4B41;
+}
+
+#h2Purch {
+    font-family: 'Montserrat';
+    font-weight: 400;
+    font-size: 39.0704px;
+    line-height: 48px;
+
+    text-align: center;
+
+    color: #5C4B41;
+}
+
+.listProject {
+    text-decoration: none;
+
+    font-family: 'Montserrat';
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 24px;
+
+    vertical-align: middle;
+
+    color: #483B3B;
+}
+
+.aProfile:hover {
+
+    text-shadow: 0px 4px 4px rgba(63, 50, 50, 0.75);
+}
+
+.aMenu:hover {
+    color: #483B3B;
+}
+
+.download {
+    text-decoration: none;
+}
+
+#hProj {
+    font-family: 'Montserrat';
+    font-weight: 700;
+    font-size: 69.4135px;
+    line-height: 85px;
+
+    color: #805F51;
+}
+
+#blockList {
+    position: relative;
+
+    width: 1359.13px;
+    height: 550px;
+
+    background: #FFFFFF;
+    border-radius: 89.1084px;
+}
+
+.hheadertable {
+    font-family: 'Montserrat';
+    font-weight: 500;
+    font-size: 24.6965px;
+    line-height: 30px;
+
+    color: #5C4B41;
+}
+
+.nameDate,
+.projDate,
+.desDate,
+.coutDate,
+.priceDate
+{
+    font-family: 'Montserrat';
+    font-weight: 300;
+    font-size: 16.9216px;
+    line-height: 21px;
+
+    color: #000000;
+}
+
+#background {
+    width: 100vw;
+    height: 100vh;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+#polygons {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+
+    filter: blur(1px);
+}
+
+li {
+    list-style-type: none;
+
+    display: inline;
+    margin-right: 5px;
+}
+.aMenu {
+    text-decoration: none;
+
+    font-family: 'Montserrat';
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 24px;
+
+    color: #483B3B;
+}
+
+
