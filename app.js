@@ -21,6 +21,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(fileUpload());
 app.use(express.static(__dirname + '/static'));
+app.use('/uploads', express.static('uploads'));
 
 //routing
 
@@ -44,6 +45,13 @@ app.get('/sign_up', (req, res) => {
 app.get('/test', (req, res) => {
   res.sendFile(path.join(__dirname + '/templates/index.html'));
 })
+
+app.get('/', function(req, res){
+  res.download('Unknown_file.txt', function(error){
+      console.log("Error : ", error)
+  });
+})
+
 
 //post requests
 app.post('/login', async (req, res) => {
