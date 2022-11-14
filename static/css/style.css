@@ -1,0 +1,90 @@
+body {
+    background: #FFEEE1;
+}
+#logo {
+    width: 90px;
+    height: 90px;
+}
+
+#imgMetaMask {
+    width: 41.55px;
+    height: 38.79px;
+}
+
+#text-logo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 54px;
+    font-weight: 400;
+
+    color: #423A3A;
+}
+
+#text-reg {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 80px;
+    font-weight: 800;
+
+    color: #805F51;
+}
+
+.input {
+    box-sizing: border-box;
+    width: 350px;
+    height: 60px;
+
+    border: 3px solid #6E6363;
+    border-radius: 55px;
+
+    background-color: transparent;
+}
+
+::placeholder {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+
+    color: #877474;
+}
+
+.buttonSignUp {
+    border: 3px solid #6E6363;
+    border-radius: 55px;
+
+    width: 350px;
+    height: 60px;
+
+    background-color: transparent;
+
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+
+    color: #6E6363;
+}
+
+input[type="text"]
+{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+
+    color: #805F51;
+}
+
+input[type="email"]
+{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+
+    color: #805F51;
+}
+
+input[type="password"]
+{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+
+    color: #805F51;
+}

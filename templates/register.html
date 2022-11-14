@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+    <title>Register</title>
+</head>
+<body>
+    <form id="reg-form">
+        <input type="text" id="username" placeholder="Username" />
+        <input type="text" id="email" placeholder="email" />
+        <input type="password" id="password" placeholder="Password" />
+        <input type="metamask_address" id="metamask_address" placeholder="metamask address" />
+        <input type="submit" value="Submmit Form"/>
+    </form>
+
+    <br>
+    <br>
+    <button onclick="accessToMetamask()">CONNECT METAMASK</button> <br>
+    <p id="accountArea"></p>
+    <br>
+    <br>
+
+    <script>
+        const form = document.getElementById("reg-form")
+        form.addEventListener('submit', registerUser)
+
+        //send data as json
+        async function registerUser(event){
+            event.preventDefault()
+            const email  = document.getElementById("email").value
+            const username = document.getElementById("username").value
+            const password = document.getElementById("password").value
+            const metamask_address = document.getElementById("metamask_address").value
+
+            const result = await fetch('/register', { //fetch data to server
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email, username, password, metamask_address
+                })
+            }).then((res) => res.json())
+
+            console.log(result)
+        }
+
+        let account;
+        const accessToMetamask = async () => {
+            if(window.ethereum !== "undefined") {
+                const accounts = await ethereum.request({ method: "eth_requestAccounts"});
+                account = accounts[0];
+                document.getElementById("accountArea").innerHTML = account;
+                document.getElementById("metamask_address").value = account;
+            }
+        }
+    </script>
+</body>
+</html>

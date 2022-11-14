@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<h1>TEST</h1>
+		<form id="reg-form">
+			<input type="submit" value="Submit Form" />
+		</form>
+
+		<script>
+			const form = document.getElementById('reg-form')
+			form.addEventListener('submit', getToken)
+
+			async function getToken(event) {
+				event.preventDefault()
+
+				const result = await fetch('/test', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						token: localStorage.getItem('token')
+					})
+				}).then((res) => res.json())
+
+				if (result.status === 'ok') {
+					// everythign went fine
+					alert('Success')
+				} else {
+					alert(result.error)
+				}
+			}
+		</script>
+	</body>
+</html>
