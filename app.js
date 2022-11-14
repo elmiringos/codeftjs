@@ -7,9 +7,10 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const fileUpload = require('express-fileupload');
 
+require('dotenv').config();
 
-const JWT_SECRET = 'ddasfasfjkdkfaF}Sfdfjkj#$%kfdjkfds^%$$%AS';
 
+const JWT_SECRET = process.env.JWT_TOKEN;
 
 mongoose.connect('mongodb://localhost:27017/codeftjs');
 
