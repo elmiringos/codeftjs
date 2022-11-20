@@ -6,6 +6,8 @@ const User = require('./model/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const fileUpload = require('express-fileupload');
+const Token = require('./model/token');
+
 
 require('dotenv').config();
 
@@ -84,14 +86,14 @@ app.post('/test', async (req, res) => {
 	const { token } = req.body
 
 	try {
-		const user = jwt.verify(token, JWT_SECRET)
+		const user = jwt.verify(token, JWT_SECRET);
 
-    console.log(user)
+    console.log(user);
 
 
 	} catch (error) {
-		console.log(error)
-		res.json({ status: 'error', error: ';))' })
+		console.log(error);
+		res.json({ status: 'error', error: ';))' });
 	}
 })
 
@@ -134,6 +136,11 @@ app.post('/register', async (req, res) => {
 app.post('/upload', function(req, res) {
   let sampleFile;
   let uploadPath;
+  let token_address;
+
+  console.log(req.body);
+
+  // const { token } = req.body;
 
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send('No files were uploaded.');
@@ -143,6 +150,9 @@ app.post('/upload', function(req, res) {
   sampleFile = req.files.sampleFile;
   uploadPath = __dirname + '/uploads/' + sampleFile.name;
 
+  console.log(uploadPath);
+  // const user = jwt.verify(token, JWT_SECRET);
+  // console.log(user);
   // Use the mv() method to place the file somewhere on your server
   sampleFile.mv(uploadPath, function(err) {
     if (err)

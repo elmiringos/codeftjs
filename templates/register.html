@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+        type="application/javascript"></script>
     <title>Register</title>
 </head>
 <body>
@@ -18,7 +19,7 @@
 
     <br>
     <br>
-    <button onclick="accessToMetamask()">CONNECT METAMASK</button> <br>
+    <button onclick="connectMetamask()">CONNECT METAMASK</button> <br>
     <p id="accountArea"></p>
     <br>
     <br>
@@ -48,14 +49,22 @@
             console.log(result)
         }
 
+         
+
         let account;
-        const accessToMetamask = async () => {
-            if(window.ethereum !== "undefined") {
-                const accounts = await ethereum.request({ method: "eth_requestAccounts"});
-                account = accounts[0];
-                document.getElementById("accountArea").innerHTML = account;
-                document.getElementById("metamask_address").value = account;
-            }
+        let provider = new ethers.providers.Web3Provider(window.ethereum)
+        let signer;
+
+        async function connectMetamask() {
+            // MetaMask requires requesting permission to connect users accounts
+            await provider.send("eth_requestAccounts", []);
+
+            signer = await provider.getSigner();
+            account = await signer.getAddress();
+            document.getElementById("accountArea").innerHTML = account;
+            document.getElementById("metamask_address").value = account;
+
+            console.log("Account address s:", await signer.getAddress());
         }
     </script>
 </body>
