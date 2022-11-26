@@ -1,11 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
-    type="application/javascript"></script>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
@@ -14,12 +11,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap" rel="stylesheet">
 
-    <title>registration</title>
+    <title>authorization</title>
 </head>
 <body>
     <div class="container">
         <nav class="navbar navbar-expand-sm navbar-light px-3">
-            <a href="projectlist.html" class="navbar-brand"><img id="logo" src="img/logo.svg" alt="#"></a>
+            <a href="projectlist.html" class="navbar-brand">
+                <img id="logo" src="img/logo.svg" alt="#">
+            </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent"
                     aria-controls="navContent" aria-expanded="false">
@@ -48,78 +47,45 @@
             </div>
         </nav>
 
-        <form action="" id="reg-form" class="position-absolute top-50 start-50 translate-middle">
+        <form action="" id="sign-form" class="position-absolute top-50 start-50 translate-middle">
             <h1 id="text-auth" class="row col-4 offset-4 justify-content-center mb-4 text-nowrap text-uppercase">
-                sign up
+                sign in
             </h1>
 
-            <input type="email" id="email" class="input row col-4 offset-4 mb-3 p-3 mx-auto" placeholder="Email" aria-describedby="Email">
+            <input type="email" id="inputEmail" class="input row col-4 offset-4 mb-3 p-3 mx-auto" placeholder="Email" aria-describedby="Email">
 
-            <input type="text" id="username" class="input row col-4 offset-4 mb-3 p-3 mx-auto" placeholder="Nickname" aria-describedby="Nikname">
+            <input type="password" id="inputPassword" class="input row col-4 offset-4 p-3 mb-5 mx-auto" placeholder="Password" aria-describedby="Password">
 
-            <input type="password" id="password" class="input row col-4 offset-4 p-3 mb-5 mx-auto" placeholder="Password" aria-describedby="Password">
-
-            <!-- <input type="submit" class="buttonSignUp" onclick="registerUser()">
-                Sign in
-
-            </input> -->
-            
-            <input type="submit" class="buttonSignUp" value="Submmit Form"/>
-
+            <input type="submit" class="buttonSignIn justify-content-center align-items-center row col-4 offset-4 mx-auto" value="Submmit Form"/>
         </form>
-        <button class="buttonMask" onclick="connectMetamask()">
-            <img id="imgMetaMask" src="img/MetaMask.svg" alt="#">
-        </button>
     </div>
     <script>
-        const form = document.getElementById("reg-form");
-        form.addEventListener('submit', registerUser);
-
-        let account;
-        let provider = new ethers.providers.Web3Provider(window.ethereum);
-        let signer;
-
-        async function connectMetamask() {
-            // MetaMask requires requesting permission to connect users accounts
-            await provider.send("eth_requestAccounts", []);
-
-            signer = await provider.getSigner();
-            account = await signer.getAddress();
-            
-
-            console.log("Account address s:", await signer.getAddress());
-        }
-
-        //send data as json
-        async function registerUser(event){
+        const form = document.getElementById("sign-form")
+        form.addEventListener('submit', login);
+        //send data as jason
+        async function login(event){
             event.preventDefault();
-            const email  = document.getElementById("email").value;
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
-            const metamask_address = account;
+            const email = document.getElementById("inputEmail").value
+            const password = document.getElementById("inputPassword").value
+            console.log(email, password);
 
-            const result = await fetch('/signup', { //fetch data to server
+            const result = await fetch('/signin', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    email, username, password, metamask_address
+                    email, password
                 })
-            }).then((res) => res.json());
-
-            console.log(result);
+            }).then((res) => res.json())
 
             if (result === 200) {
-                window.location.replace("/signin");
+                window.location.replace("/check");
 			} else {
-				alert(result.error);
+				alert(result.error)
 			}
+
         }
-
-         
-
-
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>

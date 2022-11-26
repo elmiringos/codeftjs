@@ -2,11 +2,46 @@
   <body>
     <form ref='uploadForm' 
       id='uploadForm' 
-      action='http://localhost:8000/upload' 
+      action='http://localhost:4000/upload' 
       method='post' 
       encType="multipart/form-data">
-        <input type="file" name="sampleFile" />
-        <input type='submit' value='Upload!' />
-    </form>     
+        <input type="text" id="metamask_address" required/>
+        <input type="text" id="numberOfTokens" required/>
+        <input type="text" id="info" required/>
+        <input type="text" id="projectName" required/>
+        <input type="file" id="file" required/>
+        <input type='submit' value='Upload!' required/>
+    </form>
+    <script>
+      const form = document.getElementById("uploadForm");
+      form.addEventListener('submit', upload);
+
+      //send data as jason
+      async function upload(event){
+          event.preventDefault();
+
+          const metamask_address = document.getElementById("metamask_address").value;
+          const numberOfTokens = document.getElementById("numberOfTokens").value;
+          const info = document.getElementById("info").value;
+          const projectName = document.getElementById("projectName").value;
+          const input = document.getElementById("file");
+
+          
+          const fd = new FormData();
+          fd.append('metamask_address', metamask_address);
+          fd.append('numberOfTokens', numberOfTokens);
+          fd.append('info', info);
+          fd.append('projectName', projectName);
+          fd.append('file', input.files[0]);
+          
+          const result = await fetch('/upload', {
+              method: 'POST',
+              body: fd,
+          })
+          .then(res => res.json())
+          .then(json => console.log(json))
+          .catch(err => console.error(err))
+      }
+    </script>
   </body>
 </html>

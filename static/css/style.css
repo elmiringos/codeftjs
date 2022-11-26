@@ -14,7 +14,6 @@ a {
 #imgMetaMask {
     width: 40px;
     height: 40px;
-
 }
 
 #text-logo {
@@ -56,7 +55,7 @@ a {
     color: #877474;
 }
 
-.buttonSignUp {
+.buttonSignIn {
     border: 3px solid #6E6363;
     border-radius: 55px;
 
@@ -72,6 +71,21 @@ a {
     color: #6E6363;
 }
 
+.buttonSignUp {
+    border: 3px solid #6E6363;
+    border-radius: 55px;
+
+    width: 285px;
+    height: 60px;
+
+    background-color: transparent;
+
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+
+    color: #6E6363;
+}
 .buttonMask {
     border: 3px solid #6E6363;
     border-radius: 55px;
@@ -81,6 +95,9 @@ a {
     font-family: 'Montserrat', sans-serif;
     font-weight: 500;
     font-size: 22px;
+
+    width: 60px;
+    height: 60px;
 
     color: #6E6363;
 }
@@ -178,18 +195,8 @@ hr {
 
     color: #483B3B;
 }
-
 .aProfile:hover {
-
-    text-shadow: 0px 4px 4px rgba(63, 50, 50, 0.75);
-}
-
-.aMenu:hover {
-    color: #483B3B;
-}
-
-.download {
-    text-decoration: none;
+    color: #f4974a;
 }
 
 #hProj {
@@ -202,57 +209,18 @@ hr {
 }
 
 #blockList {
-    position: relative;
-
     width: 1359.13px;
     height: 550px;
 
     background: #FFFFFF;
     border-radius: 89.1084px;
 }
-
-.hheadertable {
+#text-projectList {
     font-family: 'Montserrat';
-    font-weight: 500;
-    font-size: 24.6965px;
-    line-height: 30px;
+    font-weight: 700;
+    font-size: 69px;
 
-    color: #5C4B41;
-}
-
-.nameDate,
-.projDate,
-.desDate,
-.coutDate,
-.priceDate
-{
-    font-family: 'Montserrat';
-    font-weight: 300;
-    font-size: 16.9216px;
-    line-height: 21px;
-
-    color: #000000;
-}
-
-#background {
-    width: 100vw;
-    height: 100vh;
-
-    position: relative;
-
-    overflow: hidden;
-}
-
-#polygons {
-    position: absolute;
-
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-
-    filter: blur(1px);
+    color: #805F51;
 }
 
 li {
@@ -271,5 +239,36 @@ li {
 
     color: #483B3B;
 }
+.blockList {
+    background: #FFFFFF;
+    border-radius: 89px;
+
+    width: 1296px;
+    height: 600px;
+}
+table.table {
+    width: 1200px;
+
+    margin: 0;
+    padding: 0;
+}
+
+.hTable {
+    font-family: 'Montserrat';
+    font-weight: 500;
+    font-size: 25px;
+
+    color: #5C4B41;
+}
+
+.textTable {
+    font-family: 'Montserrat';
+    font-weight: 300;
+    font-size: 17px;
+
+    color: #000000;
+}
+
+
 
 

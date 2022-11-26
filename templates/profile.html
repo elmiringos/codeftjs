@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap" rel="stylesheet">
+
+    <title>profile</title>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-sm navbar-light px-3">
+            <a href="projectlist.html" class="navbar-brand">
+                <img id="logo" src="img/logo.svg" alt="#">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent"
+                    aria-controls="navContent" aria-expanded="false">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse " id="navContent">
+                <div class="mx-auto"></div>
+                <ul class="navbar-nav mr-auto align-items-end">
+                    <li class="nav-item">
+                        <a class="aMenu nav-link" href="signin.html">
+                            Sign In
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="aMenu nav-link" href="signup.html">
+                            Sign Up
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="aMenu nav-link" href="profile.html">
+                            Profile
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div id="blockname" class="col-7 mb-3 mx-auto">
+            <h1 id="NameUser" class="pt-5 pb-2">
+                Phil Yarden
+            </h1>
+            <hr class="mx-auto">
+            <h2 id="idmask" class="pt-2">
+                0xBF61163a2B8A921e5aE82407A54662d9db8eAD58
+            </h2>
+        </div>
+
+        <div id="blockpublic" class="col-7 mb-3 mx-auto">
+            <h2 id="h2Public" class="p-4">
+                Public projects
+            </h2>
+
+            <ul class="text-center mt-3 p-0">
+                <li>
+                    <a href="#" class="aProfile listProject">
+                        here your project one
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div id="blockpurch" class="col-7 mb-3 mx-auto">
+            <h2 id="h2Purch" class="p-4">
+                Purchased projects
+            </h2>
+
+            <ul class="text-center mt-3 p-0">
+                <li>
+                    <a href="#" class="aProfile listProject px-2">
+                        here someone’s project one
+                    </a>
+                    <a href="#" class="aDownload">
+                        <img class="" src="img/download.svg" alt="">
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

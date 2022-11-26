@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap" rel="stylesheet">
+
+    <title>profile</title>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-sm navbar-light px-3">
+            <a href="projectlist.html" class="navbar-brand"><img id="logo" src="../static/img/logo.svg" alt="#"></a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent"
+                    aria-controls="navContent" aria-expanded="false">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse " id="navContent">
+                <div class="mx-auto"></div>
+                <ul class="navbar-nav mr-auto align-items-end">
+                    <li class="nav-item">
+                        <a class="aMenu nav-link" href="signin.html">
+                            Sign In
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="aMenu nav-link" href="signup.html">
+                            Sign Up
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="aMenu nav-link" href="profile.html">
+                            Profile
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <h1 id="text-projectList" class="col-5 mx-5 px-5 text-nowrap">
+            Project list
+        </h1>
+        <div class="blockList">
+        <table class="table align-middle mx-auto" style="border: #8A7D7B;">
+            <thead>
+            <tr>
+                <th scope="col" class="hTable">Name</th>
+                <th scope="col" class="text-center hTable">Project</th>
+                <th scope="col" class="text-center hTable">Description</th>
+                <th scope="col" class="text-center hTable">Count</th>
+                <th scope="col" class="hTable">Price</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody style = "border: 1px  rgba(138, 125, 123, 0.2);">
+            <tr>
+                <td class="text-nowrap ">Ruth Elliott</td>
+                <td class="text-center text-nowrap textTable">Massmoney</td>
+                <td class="text-right textTable">
+                    <span class="textDescr">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid atque cum deleniti dolorum eaque eius ipsam libero obcaecati quam quibusdam.</span>
+                </td>
+                <td class="text-center textTable">1</td>
+                <td class="textTable">34.54 Ξ</td>
+                <td class="text-center">
+                    <a href="">
+                        <img src="../static/img/buy.svg" alt="">
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

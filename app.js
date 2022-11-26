@@ -1,4 +1,7 @@
 ﻿const express = require('express');
+const cookieParser = require("cookie-parser")
+const csurf = require("csurf")
+const csrfProtection = csurf({ cookie: { httpOnly: true } })
 const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -13,10 +16,7 @@ require('dotenv').config();
 
 
 const JWT_SECRET = process.env.JWT_TOKEN;
-
 mongoose.connect('mongodb://localhost:27017/codeftjs');
-
-
 const app = express();
 
 // middleware
@@ -24,24 +24,44 @@ app.use(bodyParser.json());
 app.use(fileUpload());
 app.use(express.static(__dirname + '/static'));
 app.use('/uploads', express.static('uploads'));
+app.use(express.urlencoded({ extended: false }))
+app.use(cookieParser());
+
+// Token checker middleware
+function mustBeLoggedIn(req, res, next) {
+  jwt.verify(req.cookies.cookieToken, JWT_SECRET, function (err) {
+    if (err) {
+      res.redirect("/login")
+    } else {
+      next()
+    }
+  })
+}
+
+function NotLoggedIn(req, res, next) {
+  jwt.verify(req.cookies.cookieToken, JWT_SECRET, function (err) {
+    if (err) {
+      next();
+    } else {
+      res.send("sorry, you are alredy loged in");
+    }
+  })
+}
+
 
 //routing
 
 //get requests
-app.get('/register', (req, res) => {
-  res.sendFile(path.join(__dirname + '/templates/register.html'));
+app.get('/signup', NotLoggedIn, (req, res) => {
+  res.sendFile(path.join(__dirname + '/templates/signup.html'));
 })
 
-app.get('/upload', (req, res) => {
+app.get('/upload', mustBeLoggedIn, (req, res) => {
   res.sendFile(path.join(__dirname + '/templates/upload_file.html'));
 })
 
-app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname + '/templates/login.html'));
-})
-
-app.get('/sign_up', (req, res) => {
-  res.sendFile(path.join(__dirname + '/templates/signup.html'));
+app.get('/signin', NotLoggedIn, (req, res) => {
+  res.sendFile(path.join(__dirname + '/templates/signin.html'));
 })
 
 app.get('/test', (req, res) => {
@@ -54,11 +74,15 @@ app.get('/', function(req, res){
   });
 })
 
+app.get('/check', mustBeLoggedIn, (req, res) => {
+  res.send('hello_authorizted_man');
+})
+
 
 //post requests
-app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-  const user = await User.findOne({ username }).lean();
+app.post('/signin', async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email }).lean();
 
   if(!user){
     return res.json({ status: 'error', error:"Invalid username/password"});
@@ -74,42 +98,23 @@ app.post('/login', async (req, res) => {
       }, 
       JWT_SECRET
     );
-    return res.json({ status: 'ok', data: token});
+    res.cookie("cookieToken", token, { httpOnly: true , sameSite: 'None', secure: true});
+    return res.json(200);
   }
-  
   res.json({ status: 'error', error:"Invalid username/password"});
 })
 
 
-app.post('/test', async (req, res) => {
-  console.log(req.body)
-	const { token } = req.body
-
-	try {
-		const user = jwt.verify(token, JWT_SECRET);
-
-    console.log(user);
-
-
-	} catch (error) {
-		console.log(error);
-		res.json({ status: 'error', error: ';))' });
-	}
-})
-
-
-app.post('/register', async (req, res) => {
+app.post('/signup', async (req, res) => {
   console.log(req.body);
   const { email, username, password:plainTextPassword, metamask_address } = req.body;
 
   if (!username || typeof username !== 'string'){
     return res.json({ status: 'error', error:'Invalid username' });
   }
-
   if (!plainTextPassword || typeof plainTextPassword !== 'string'){
     return res.json({ status: 'error', error:'Invalid password' });
   }
-
   if (plainTextPassword.length < 8){
     return res.json({ status: 'error', error:'Your password is to small' });
   }
@@ -129,43 +134,51 @@ app.post('/register', async (req, res) => {
       }
       throw error;
   }
-  res.json({satatus: 'ok'});
+  res.json(200);
 })
 
 
-app.post('/upload', function(req, res) {
+app.post('/upload', (req, res) =>{
   let sampleFile;
   let uploadPath;
-  let token_address;
 
-  console.log(req.body);
-
-  // const { token } = req.body;
+  const token_address = "2131"; //todo - use ethers js for get the token adress 
 
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send('No files were uploaded.');
   }
-
-  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-  sampleFile = req.files.sampleFile;
+  
+  sampleFile = req.files.file;
+  const { metamask_address, numberOfTokens, info, projectName } = req.body;
+  console.log(metamask_address);
+  sampleFile.name = projectName + '.zip';
   uploadPath = __dirname + '/uploads/' + sampleFile.name;
-
   console.log(uploadPath);
-  // const user = jwt.verify(token, JWT_SECRET);
-  // console.log(user);
+
   // Use the mv() method to place the file somewhere on your server
-  sampleFile.mv(uploadPath, function(err) {
+  sampleFile.mv(uploadPath, async function(err) {
     if (err)
       return res.status(500).send(err);
-
-    res.send('File uploaded!');
+    try{
+      const response = await Token.create({
+          metamask_address: metamask_address,
+          token_address: token_address,
+          path_to_file: uploadPath,
+          total_number: numberOfTokens,
+          info: info,
+          project_name: projectName,
+          
+      });
+      res.send({status: true, message: 'File is uploaded'});
+    } catch (error){
+        throw error;
+    }
   });
 });
 
 
 
 
-
-app.listen(8000, () => {
+app.listen(4000, () => {
   console.log('Server up at 8000');
 })
