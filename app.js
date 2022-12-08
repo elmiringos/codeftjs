@@ -26,12 +26,15 @@ app.use(express.static(__dirname + '/static'));
 app.use('/uploads', express.static('uploads'));
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser());
+app.set('views', path.join(__dirname, 'templates'));
+app.set('view engine', 'pug');
+
 
 // Token checker middleware
 function mustBeLoggedIn(req, res, next) {
   jwt.verify(req.cookies.cookieToken, JWT_SECRET, function (err) {
     if (err) {
-      res.redirect("/login")
+      res.redirect("/signin")
     } else {
       next()
     }
@@ -48,6 +51,9 @@ function NotLoggedIn(req, res, next) {
   })
 }
 
+function parseJwt (token) {
+  return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+}
 
 //routing
 
@@ -56,17 +62,36 @@ app.get('/signup', NotLoggedIn, (req, res) => {
   res.sendFile(path.join(__dirname + '/templates/signup.html'));
 })
 
-app.get('/upload', mustBeLoggedIn, (req, res) => {
-  res.sendFile(path.join(__dirname + '/templates/upload_file.html'));
+app.get('/upload', mustBeLoggedIn, csrfProtection, (req, res) => {
+  res.sendFile(path.join(__dirname + '/templates/uploadfile.html'));
 })
 
 app.get('/signin', NotLoggedIn, (req, res) => {
   res.sendFile(path.join(__dirname + '/templates/signin.html'));
 })
 
-app.get('/test', (req, res) => {
-  res.sendFile(path.join(__dirname + '/templates/index.html'));
+app.get('/profile', mustBeLoggedIn, async (req, res) => {
+  const user = parseJwt(req.cookies.cookieToken);
+  const username = user.username;
+  const userMetamask = user.metamask_address;
+  const publicProjects = await Token.find({owner_address: userMetamask});
+  console.log(user);
+  console.log(publicProjects);
+  res.render('profile.pug', {
+    username, userMetamask, publicProjects,
+  });
 })
+
+
+app.get('/projectlist', mustBeLoggedIn, async (req, res) => {
+  const data = await Token.find({});
+  const name = 'elmir';
+  console.log(data);
+  res.render('projectlist.pug', {
+    data,
+  });
+})
+
 
 app.get('/', function(req, res){
   res.download('Unknown_file.txt', function(error){
@@ -74,8 +99,17 @@ app.get('/', function(req, res){
   });
 })
 
+
+app.get("/logout", (req, res) => {
+  res.clearCookie("cookieToken")
+  res.send('Everything is working');
+})
+
+
 app.get('/check', mustBeLoggedIn, (req, res) => {
-  res.send('hello_authorizted_man');
+  console.log(req.cookies.cookieToken);
+  console.log(parseJwt(req.cookies.cookieToken).username);
+  res.send('Everything is working');
 })
 
 
@@ -108,7 +142,6 @@ app.post('/signin', async (req, res) => {
 app.post('/signup', async (req, res) => {
   console.log(req.body);
   const { email, username, password:plainTextPassword, metamask_address } = req.body;
-
   if (!username || typeof username !== 'string'){
     return res.json({ status: 'error', error:'Invalid username' });
   }
@@ -118,9 +151,7 @@ app.post('/signup', async (req, res) => {
   if (plainTextPassword.length < 8){
     return res.json({ status: 'error', error:'Your password is to small' });
   }
-
   const password = await bcrypt.hash(plainTextPassword, 10);
-
   try{
     const response = await User.create({
         email,
@@ -138,47 +169,51 @@ app.post('/signup', async (req, res) => {
 })
 
 
-app.post('/upload', (req, res) =>{
+app.post('/upload', async (req, res) =>{
   let sampleFile;
   let uploadPath;
+  const metamask_address = parseJwt(req.cookies.cookieToken).metamask_address;
 
-  const token_address = "2131"; //todo - use ethers js for get the token adress 
+  const username = parseJwt(req.cookies.cookieToken).username;
+  
+  const token_address = "12341234"; //todo - use ethers js for get the token adress 
 
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send('No files were uploaded.');
   }
   
   sampleFile = req.files.file;
-  const { metamask_address, numberOfTokens, info, projectName } = req.body;
+  const { numberOfTokens, info, projectName, price } = req.body;
   console.log(metamask_address);
+  console.log(req.body)
   sampleFile.name = projectName + '.zip';
   uploadPath = __dirname + '/uploads/' + sampleFile.name;
   console.log(uploadPath);
 
-  // Use the mv() method to place the file somewhere on your server
-  sampleFile.mv(uploadPath, async function(err) {
-    if (err)
-      return res.status(500).send(err);
-    try{
-      const response = await Token.create({
-          metamask_address: metamask_address,
-          token_address: token_address,
-          path_to_file: uploadPath,
-          total_number: numberOfTokens,
-          info: info,
-          project_name: projectName,
-          
-      });
-      res.send({status: true, message: 'File is uploaded'});
-    } catch (error){
-        throw error;
-    }
-  });
+  try{
+    const response = await Token.create({
+        username: username,
+        owner_address: metamask_address,
+        token_address: token_address,
+        path_to_file: uploadPath,
+        total_number: numberOfTokens,
+        info: info,
+        project_name: projectName,
+        price: price,
+        
+    });
+    res.send({status: true, message: 'File is uploaded'});
+    sampleFile.mv(uploadPath, async function(err) {
+      if (err)
+        return res.status(500).send(err);
+    });
+  } catch (error){
+      throw error;
+  }
+  
 });
 
 
-
-
 app.listen(4000, () => {
-  console.log('Server up at 8000');
+  console.log('Server up at 4000');
 })
