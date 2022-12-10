@@ -1,0 +1,99 @@
+﻿doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0')
+  meta(http-equiv='X-UA-Compatible' content='ie=edge')
+  title codeft.
+  link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC' crossorigin='anonymous')
+  link(rel='stylesheet' href='css/style.css')
+  link(rel='preconnect' href='https://fonts.googleapis.com')
+  link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
+  link(href='https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap' rel='stylesheet')
+#scene
+  .item(data-depth='0.2')
+    img.pol1(src='img/pol/p1.svg' alt='#')
+  .item(data-depth='0.3')
+    img.pol2(src='img/pol/p2.svg' alt='#')
+  .item(data-depth='0.2')
+    img.pol3(src='img/pol/p3.svg' alt='#')
+  .item(data-depth='0.3')
+    img.pol4(src='img/pol/p4.svg' alt='#')
+  .item(data-depth='0.2')
+    img.pol5(src='img/pol/p5.svg' alt='#')
+  .item(data-depth='0.2')
+    img.pol6(src='img/pol/p6.svg' alt='#')
+  .item(data-depth='0.3')
+    img.pol7(src='img/pol/p7.svg' alt='#')
+  .item(data-depth='0.3')
+    img.pol8(src='img/pol/p8.svg' alt='#')
+  .item(data-depth='0.5')
+    img.pol9(src='img/pol/p9.svg' alt='#')
+  .item(data-depth='0.5')
+    img.pol10(src='img/pol/p10.svg' alt='#')
+  .item(data-depth='0.4')
+    img.pol11(src='img/pol/p11.svg' alt='#')
+  .item(data-depth='0.4')
+    img.pol12(src='img/pol/p12.svg' alt='#')
+  .item(data-depth='0.4')
+    img.pol13(src='img/pol/p13.svg' alt='#')
+  .item(data-depth='0.5')
+    img.pol14(src='img/pol/p14.svg' alt='#')
+  .item(data-depth='0.5')
+    img.pol15(src='img/pol/p15.svg' alt='#')
+nav.navbar.px-3
+  a(href='/projectlist')
+    img#logo(src='img/logo.svg' alt='#')
+  ul.navbar-nav.d-inline
+
+    if is_auth
+      li.nav-item.d-inline.px-2
+        a.aMenu(href='/profile')
+          | Profile
+    else
+      li.nav-item.d-inline.px-2
+        a.aMenu(href='/signin')
+          | Sign In
+      li.nav-item.d-inline.px-2
+        a.aMenu(href='/signup')
+          | Sign Up
+
+.container
+  .row.col-5.offset-1.mb-5.pb-5
+    h2.titlePL Project list
+  .ProjectList.col-12
+    table.table.align-middle.col-12.mx-auto.mt-2
+      thead
+        tr
+          th.col-2.headerTable(scope='col') Name
+          th.col-2.headerTable.text-center(scope='col') Project
+          th.col-4.headerTable.text-center(scope='col') Description
+          th.col-2.headerTable.text-center(scope='col') Count
+          th.col-2.headerTable.text-center(scope='col') Price
+          th.col-1.headerTable(scope='col')
+      tbody
+        each obj in data
+            tr
+            td.col-2.textTable #{obj.username}
+            td.col-2.textTable.text-center #{obj.project_name}
+            td.col-4.textTable
+                article
+                | #{obj.info}
+            td.col-2.textTable.text-center #{obj.total_number} 
+            td.col-2.textTable.text-center #{obj.price} &Xi;
+            if is_auth
+              td.col-1.textTable.text-center
+                a(href='#')
+                  img(src='img/BuyButton.svg' alt='#')
+script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
+script(src='https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js')
+script(src='js/readmore.js')
+script.
+  var scene = document.getElementById('scene');
+  var parallaxInstance = new Parallax(scene);
+  $('article').readmore({ //вызов плагина
+  speed: 250, //скорость раскрытия скрытого текста (в миллисекундах)
+    maxHeight: 85, //высота раскрытой области текста (в пикселях)
+    heightMargin: 16, //избегание ломания блоков, которые больше maxHeight (в пикселях)
+    moreLink: '<a class="aLoadMore" href="#">load more.</a>', //ссылка "Читать далее"
+    lessLink: '<a class="aLoadMore" href="#">hidden</a>' //ссылка "Скрыть"
+  });

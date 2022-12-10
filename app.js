@@ -10,6 +10,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const fileUpload = require('express-fileupload');
 const Token = require('./model/token');
+const TokenOwner = require('./model/tokenOwner');
 
 
 require('dotenv').config();
@@ -63,40 +64,55 @@ app.get('/signup', NotLoggedIn, (req, res) => {
 })
 
 app.get('/upload', mustBeLoggedIn, csrfProtection, (req, res) => {
-  res.sendFile(path.join(__dirname + '/templates/uploadfile.html'));
+  res.render('uploadfile.pug');
 })
 
 app.get('/signin', NotLoggedIn, (req, res) => {
-  res.sendFile(path.join(__dirname + '/templates/signin.html'));
+  res.render('signin.pug');
 })
 
 app.get('/profile', mustBeLoggedIn, async (req, res) => {
   const user = parseJwt(req.cookies.cookieToken);
   const username = user.username;
   const userMetamask = user.metamask_address;
-  const publicProjects = await Token.find({owner_address: userMetamask});
+  const publicProjects = await Token.find({ owner_address: userMetamask });
+  const purchasedProjects = await TokenOwner.find({ owner_address: userMetamask });
   console.log(user);
   console.log(publicProjects);
-  res.render('profile.pug', {
-    username, userMetamask, publicProjects,
+  res.render('account.pug', {
+    username, userMetamask, publicProjects, purchasedProjects,
   });
 })
 
 
-app.get('/projectlist', mustBeLoggedIn, async (req, res) => {
+app.get('/projectlist', async (req, res) => {
+  let is_auth = false;
+  if (req.cookies.cookieToken) is_auth = true;
   const data = await Token.find({});
   const name = 'elmir';
   console.log(data);
-  res.render('projectlist.pug', {
-    data,
+  res.render('index.pug', {
+    data, is_auth,
   });
 })
 
 
-app.get('/', function(req, res){
-  res.download('Unknown_file.txt', function(error){
-      console.log("Error : ", error)
-  });
+app.get('/file/:file_name', async (req, res) =>{
+  const { file_name } = req.params;
+  let user = null;
+  if (req.cookies.cookieToken) user = parseJwt(req.cookies.cookieToken); //check auth  
+  console.log(file_name.slice(0, -4));
+  const userMetamask = user.metamask_address;
+  const file = await TokenOwner.findOne({ $and: [ { project_name: file_name.slice(0, -4) }, { owner_address: userMetamask } ] });
+  console.log(file)
+  if (!user || !file){
+    return res.send('you are not allowed for this');
+  }
+  try{
+    res.download('uploads/' + file_name);
+  }catch(error){
+    console.log(error);
+  }
 })
 
 
@@ -106,8 +122,24 @@ app.get("/logout", (req, res) => {
 })
 
 
-app.get('/check', mustBeLoggedIn, (req, res) => {
+app.get('/check', mustBeLoggedIn, async (req, res) => {
   console.log(req.cookies.cookieToken);
+  
+  const username = 'elmir';
+  const owner_address = '0x7fe74FA70e43cfdA3394d4f259297B4fEbDbA052';
+  const token_address = '0x31542952341234';
+  const path_to_file = '/Users/elmir/codeftjs/uploads/codeftjs.zip';
+  const project_name = 'codeftjs';
+  const count = 1;
+//   const response = await TokenOwner.create({
+//     username,
+//     owner_address,
+//     token_address,
+//     path_to_file,
+//     project_name,
+//     count,
+//   });
+
   console.log(parseJwt(req.cookies.cookieToken).username);
   res.send('Everything is working');
 })
@@ -176,7 +208,7 @@ app.post('/upload', async (req, res) =>{
 
   const username = parseJwt(req.cookies.cookieToken).username;
   
-  const token_address = "12341234"; //todo - use ethers js for get the token adress 
+  const token_address = "1542952341234"; //todo - use ethers js for get the token adress 
 
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send('No files were uploaded.');

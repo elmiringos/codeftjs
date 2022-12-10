@@ -1,0 +1,84 @@
+﻿doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0')
+  meta(http-equiv='X-UA-Compatible' content='ie=edge')
+  title SignIN
+  link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC' crossorigin='anonymous')
+  link(rel='stylesheet' href='css/style.css')
+  link(rel='preconnect' href='https://fonts.googleapis.com')
+  link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
+  link(href='https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap' rel='stylesheet')
+#scene
+  .item(data-depth='0.2')
+    img.pol1(src='img/pol/p1.svg' alt='#')
+  .item(data-depth='0.3')
+    img.pol2(src='img/pol/p2.svg' alt='#')
+  .item(data-depth='0.2')
+    img.pol3(src='img/pol/p3.svg' alt='#')
+  .item(data-depth='0.3')
+    img.pol4(src='img/pol/p4.svg' alt='#')
+  .item(data-depth='0.2')
+    img.pol5(src='img/pol/p5.svg' alt='#')
+  .item(data-depth='0.2')
+    img.pol6(src='img/pol/p6.svg' alt='#')
+  .item(data-depth='0.3')
+    img.pol7(src='img/pol/p7.svg' alt='#')
+  .item(data-depth='0.3')
+    img.pol8(src='img/pol/p8.svg' alt='#')
+  .item(data-depth='0.5')
+    img.pol9(src='img/pol/p9.svg' alt='#')
+  .item(data-depth='0.5')
+    img.pol10(src='img/pol/p10.svg' alt='#')
+  .item(data-depth='0.4')
+    img.pol11(src='img/pol/p11.svg' alt='#')
+  .item(data-depth='0.4')
+    img.pol12(src='img/pol/p12.svg' alt='#')
+  .item(data-depth='0.4')
+    img.pol13(src='img/pol/p13.svg' alt='#')
+  .item(data-depth='0.5')
+    img.pol14(src='img/pol/p14.svg' alt='#')
+  .item(data-depth='0.5')
+    img.pol15(src='img/pol/p15.svg' alt='#')
+nav.navbar.px-3
+  a(href='index.html')
+    img#logo(src='img/logo.svg' alt='#')
+  ul.navbar-nav.d-inline
+    li.nav-item.d-inline.px-2
+      a.aMenu(href='/signup')
+        | Sign Up
+.container
+  form#sign-form.position-absolute.top-50.start-50.translate-middle(action='')
+    h1#text-auth.row.col-4.offset-4.justify-content-center.mb-4.text-nowrap.text-uppercase
+      | sign in
+    input#inputEmail.input.row.col-4.offset-4.mb-3.p-3.mx-auto(type='email' placeholder='Email' aria-describedby='Email')
+    input#inputPassword.input.row.col-4.offset-4.p-3.mb-5.mx-auto(type='password' placeholder='Password' aria-describedby='Password')
+    input.buttonSignIn.justify-content-center.align-items-center.row.col-4.offset-4.mx-auto(type='submit' value='Sign in')
+script(src='https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js')
+script.
+  var scene = document.getElementById('scene');
+  var parallaxInstance = new Parallax(scene);
+  const form = document.getElementById("sign-form")
+  form.addEventListener('submit', login);
+  //send data as jason
+  async function login(event){
+  event.preventDefault();
+  const email = document.getElementById("inputEmail").value
+  const password = document.getElementById("inputPassword").value
+  console.log(email, password);
+  const result = await fetch('/signin', {
+  method: 'POST',
+  headers: {
+  'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+  email, password
+  })
+  }).then((res) => res.json())
+  if (result === 200) {
+  window.location.replace("/projectlist");
+  } else {
+  alert(result.error)
+  }
+  }
+script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM' crossorigin='anonymous')
