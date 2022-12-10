@@ -7,7 +7,7 @@ const TokenOwnerSchema = new mongoose.Schema({
   path_to_file: { type: String, required: true, unique: true },
   project_name: {type: String, required: true, unique: true },
 },
-{collection: 'TokenOwners'})
+{collection: 'TokenOwner'})
 
 const model = mongoose.model('TokenOwnerSchema', TokenOwnerSchema);
 

@@ -1,0 +1,100 @@
+﻿doctype html
+| PASTE YOUR HTML CODE HERE
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  script(src='https://cdn.ethers.io/lib/ethers-5.2.umd.min.js' type='application/javascript')
+  link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC' crossorigin='anonymous')
+  link(rel='stylesheet' href='css/style.css')
+  link(rel='preconnect' href='https://fonts.googleapis.com')
+  link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
+  link(href='https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap' rel='stylesheet')
+  title registration
+#scene
+  .item(data-depth='0.2')
+    img.pol1(src='img/pol/p1.svg' alt='#')
+  .item(data-depth='0.3')
+    img.pol2(src='img/pol/p2.svg' alt='#')
+  .item(data-depth='0.2')
+    img.pol3(src='img/pol/p3.svg' alt='#')
+  .item(data-depth='0.3')
+    img.pol4(src='img/pol/p4.svg' alt='#')
+  .item(data-depth='0.2')
+    img.pol5(src='img/pol/p5.svg' alt='#')
+  .item(data-depth='0.2')
+    img.pol6(src='img/pol/p6.svg' alt='#')
+  .item(data-depth='0.3')
+    img.pol7(src='img/pol/p7.svg' alt='#')
+  .item(data-depth='0.3')
+    img.pol8(src='img/pol/p8.svg' alt='#')
+  .item(data-depth='0.5')
+    img.pol9(src='img/pol/p9.svg' alt='#')
+  .item(data-depth='0.5')
+    img.pol10(src='img/pol/p10.svg' alt='#')
+  .item(data-depth='0.4')
+    img.pol11(src='img/pol/p11.svg' alt='#')
+  .item(data-depth='0.4')
+    img.pol12(src='img/pol/p12.svg' alt='#')
+  .item(data-depth='0.4')
+    img.pol13(src='img/pol/p13.svg' alt='#')
+  .item(data-depth='0.5')
+    img.pol14(src='img/pol/p14.svg' alt='#')
+  .item(data-depth='0.5')
+    img.pol15(src='img/pol/p15.svg' alt='#')
+nav.navbar.px-3
+  a(href='index.html')
+    img#logo(src='img/logo.svg' alt='#')
+  ul.navbar-nav.d-inline
+    li.nav-item.d-inline.px-2
+      a.aMenu(href='signin.html')
+        | Sign In
+.container
+  form#reg-form.position-absolute.top-50.start-50.translate-middle(action='')
+    h1#text-auth.row.col-4.offset-4.justify-content-center.mb-4.text-nowrap.text-uppercase
+      | sign up
+    input#email.input.row.col-4.offset-4.mb-3.p-3.mx-auto(type='email' placeholder='Email' aria-describedby='Email')
+    input#username.input.row.col-4.offset-4.mb-3.p-3.mx-auto(type='text' placeholder='Nickname' aria-describedby='Nikname')
+    input#password.input.row.col-4.offset-4.p-3.mb-5.mx-auto(type='password' placeholder='Password' aria-describedby='Password')
+    input.buttonSignUp(type='submit' value='Submmit')
+  button.buttonMask(onclick='connectMetamask()')
+    img#imgMetaMask(src='img/MetaMask.svg' alt='#')
+script(src='https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js')
+script.
+  var scene = document.getElementById('scene');
+  var parallaxInstance = new Parallax(scene);
+  const form = document.getElementById("reg-form");
+  form.addEventListener('submit', registerUser);
+  let account;
+  let provider = new ethers.providers.Web3Provider(window.ethereum);
+  let signer;
+  async function connectMetamask() {
+    // MetaMask requires requesting permission to connect users accounts
+    await provider.send("eth_requestAccounts", []);
+    signer = await provider.getSigner();
+    account = await signer.getAddress();
+    console.log("Account address s:", await signer.getAddress());
+  }
+  //send data as json
+  async function registerUser(event){
+    event.preventDefault();
+    const email  = document.getElementById("email").value;
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    const metamask_address = account;
+    const result = await fetch('/signup', { //fetch data to server
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email, username, password, metamask_address
+      })
+    }).then((res) => res.json());
+    console.log(result);
+    if (result === 200) {
+      window.location.replace("/signin");
+    } else {
+      alert(result.error);
+    }
+  }
+script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM' crossorigin='anonymous')

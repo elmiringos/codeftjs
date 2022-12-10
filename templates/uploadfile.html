@@ -2,8 +2,10 @@
 <html lang="ru">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
@@ -16,93 +18,119 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-sm navbar-light px-3">
-    <a href="projectlist.html" class="navbar-brand">
-        <img id="logo" src="img/logo.svg" alt="#">
-    </a>
+    <div id="scene">
+        <div class="item" data-depth="0.2"><img class="pol1" src="img/pol/p1.svg" alt="#"></div>
+        <div class="item" data-depth="0.3"><img class="pol2" src="img/pol/p2.svg" alt="#"></div>
+        <div class="item" data-depth="0.2"><img class="pol3" src="img/pol/p3.svg" alt="#"></div>
+        <div class="item" data-depth="0.3"><img class="pol4" src="img/pol/p4.svg" alt="#"></div>
+        <div class="item" data-depth="0.2"><img class="pol5" src="img/pol/p5.svg" alt="#"></div>
+        <div class="item" data-depth="0.2"><img class="pol6" src="img/pol/p6.svg" alt="#"></div>
+        <div class="item" data-depth="0.3"><img class="pol7" src="img/pol/p7.svg" alt="#"></div>
+        <div class="item" data-depth="0.3"><img class="pol8" src="img/pol/p8.svg" alt="#"></div>
+        <div class="item" data-depth="0.5"><img class="pol9" src="img/pol/p9.svg" alt="#"></div>
+        <div class="item" data-depth="0.5"><img class="pol10" src="img/pol/p10.svg" alt="#"></div>
+        <div class="item" data-depth="0.4"><img class="pol11" src="img/pol/p11.svg" alt="#"></div>
+        <div class="item" data-depth="0.4"><img class="pol12" src="img/pol/p12.svg" alt="#"></div>
+        <div class="item" data-depth="0.4"><img class="pol13" src="img/pol/p13.svg" alt="#"></div>
+        <div class="item" data-depth="0.5"><img class="pol14" src="img/pol/p14.svg" alt="#"></div>
+        <div class="item" data-depth="0.5"><img class="pol15" src="img/pol/p15.svg" alt="#"></div>
+    </div>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse " id="navContent">
-        <div class="mx-auto"></div>
-        <ul class="navbar-nav mr-auto align-items-end">
-            <li class="nav-item">
-                <a class="aMenu nav-link" href="signin.html">
-                    Sign In
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="aMenu nav-link" href="signup.html">
-                    Sign Up
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="aMenu nav-link" href="profile.html">
+    <nav class="navbar px-3">
+        <a href="index.html">
+            <img id="logo" src="img/logo.svg" alt="#">
+        </a>
+        <ul class="navbar-nav d-inline">
+            <li class="nav-item d-inline px-2">
+                <a class="aMenu" href="profile.html">
                     Profile
                 </a>
             </li>
         </ul>
+    </nav>
+
+    <div class="container">
+        <form action="" id="uploadForm" class="position-absolute top-50 start-50 translate-middle">
+            <h1 id="text-auth" class="row col-4 offset-4 justify-content-center mb-4 text-nowrap text-uppercase">
+                new project
+            </h1>
+
+            <input type="text" id="inputProjectName" class="input inputProjectName row col-6 mb-5 p-3 mx-auto" placeholder="Project name" aria-describedby="Project name">
+
+            <div class="row justify-content-center align-items-center">
+                <input type="text" id="inputPrice" class="input inputPrice col-3 p-3 mb-5" placeholder="Price" aria-describedby="Price">
+
+                <input type="text" id="inputCount" class="input inputCout col-3 p-3 mb-5" placeholder="Count" aria-describedby="Count">
+            </div>
+
+            <input type="text" id="inputDescr" class="input inputDescr row col-4 p-3 mb-5 mx-auto" placeholder="Description" aria-describedby="Description">
+
+            <div class="row col-11 mx-auto justify-content-center align-items-center">
+
+                <label class="col-2">
+                    <p class="text-addFile text-nowrap pb-0 mb-0">
+                        Add file
+                        <object>
+                            <img class="imgAdd" src="img/addFile.svg" alt="#">
+                        </object>
+                    </p>
+                    <input id="addFile" type="file" hidden>
+                </label>
+
+                <p class="col-3 pb-0 mb-0"></p>
+                <p class="text-uploadFile col-2 pb-0 mb-0" id="file_name"></p>
+
+            </div>
+            <input type="submit" class="buttonCreate row col-2 mt-3 mx-auto text-uppercase justify-content-center align-items-center" value="create">
+        </form>
     </div>
-</nav>
 
-<div class="container">
-    <form action="" id="uploadForm" class="position-absolute top-50 start-50 translate-middle">
-        <h1 id="text-auth" class="row col-4 offset-4 justify-content-center mb-4 text-nowrap text-uppercase">
-            new project
-        </h1>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
+    <script>
+        var scene = document.getElementById('scene');
+        var parallaxInstance = new Parallax(scene);
 
-        <input type="text" id="inputProjectName" class="input row col-4 offset-4 mb-3 p-3 mx-auto" placeholder="Project name" aria-describedby="Project name">
+        document.getElementById('addFile').addEventListener('change', function() {
 
-        <input type="text" id="inputPrice" class="input row col-4 offset-4 mb-3 p-3 mx-auto" placeholder="Price" aria-describedby="Price">
+            var p;
+            p = document.getElementById('file_name');
+            p.innerHTML = this.files[0].name;
+        });
 
-        <input type="text" id="inputCount" class="input row col-4 offset-4 mb-3 p-3 mx-auto" placeholder="Count" aria-describedby="Count">
+        const form = document.getElementById("uploadForm");
+        form.addEventListener('submit', upload);
 
-        <input type="text" id="inputDescr" class="input row col-4 offset-4 mb-3 p-3 mx-auto" placeholder="Description" aria-describedby="Description">
+        //send data as jason
+        async function upload(event){
+            event.preventDefault();
 
-        <input class="addFile justify-content-center row col-4 mb-3 p-3 mx-auto row" type="file" id="file" required/>
+            const numberOfTokens = document.getElementById("inputCount").value;
+            const info = document.getElementById("inputDescr").value;
+            const projectName = document.getElementById("inputProjectName").value;
+            const input = document.getElementById('addFile')
+            const price = document.getElementById("inputPrice").value;
 
-        <input type="submit" class="buttonCreate text-uppercase justify-content-center row col-4 mb-3 p-3 mx-auto" value="create">
-    </form>
-</div>
+            const fd = new FormData();
+            fd.append('numberOfTokens', numberOfTokens);
+            fd.append('info', info);
+            fd.append('projectName', projectName);
+            fd.append('file', input.files[0]);
+            fd.append('price', price);
+            
+            const result = await fetch('/upload', {
+                method: 'POST',
+                body: fd,
+            })
+            .then(res => res.json());
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script>
-    const form = document.getElementById("uploadForm");
-    form.addEventListener('submit', upload);
+            console.log(result);
 
-    //send data as jason
-    async function upload(event){
-        event.preventDefault();
+            if (result.status === true){
+                window.location.replace("/projectlist");
+            }
 
-        const numberOfTokens = document.getElementById("inputCount").value;
-        const info = document.getElementById("inputDescr").value;
-        const projectName = document.getElementById("inputProjectName").value;
-        const input = document.getElementById("file");
-        const price = document.getElementById("inputPrice").value;
-
-        const fd = new FormData();
-        fd.append('numberOfTokens', numberOfTokens);
-        fd.append('info', info);
-        fd.append('projectName', projectName);
-        fd.append('file', input.files[0]);
-        fd.append('price', price);
-        
-        const result = await fetch('/upload', {
-            method: 'POST',
-            body: fd,
-        })
-        .then(res => res.json());
-
-        console.log(result);
-
-        if (result.status === true){
-            window.location.replace("/projectlist");
         }
-
-    }
-  </script>
+    </script>
 </body>
 
 </html>
