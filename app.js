@@ -75,11 +75,12 @@ app.get('/profile', mustBeLoggedIn, async (req, res) => {
   const user = parseJwt(req.cookies.cookieToken);
   const username = user.username;
   const userMetamask = user.metamask_address;
-  const publicProjects = await Token.find({owner_address: userMetamask});
+  const publicProjects = await Token.find({ owner_address: userMetamask });
+  const purchasedProjects = await TokenOwner.find({ owner_address: userMetamask });
   console.log(user);
   console.log(publicProjects);
   res.render('account.pug', {
-    username, userMetamask, publicProjects,
+    username, userMetamask, publicProjects, purchasedProjects,
   });
 })
 
@@ -96,10 +97,22 @@ app.get('/projectlist', async (req, res) => {
 })
 
 
-app.get('/', function(req, res){
-  res.download('Unknown_file.txt', function(error){
-      console.log("Error : ", error)
-  });
+app.get('/file/:file_name', async (req, res) =>{
+  const { file_name } = req.params;
+  let user = null;
+  if (req.cookies.cookieToken) user = parseJwt(req.cookies.cookieToken); //check auth  
+  console.log(file_name.slice(0, -4));
+  const userMetamask = user.metamask_address;
+  const file = await TokenOwner.findOne({ $and: [ { project_name: file_name.slice(0, -4) }, { owner_address: userMetamask } ] });
+  console.log(file)
+  if (!user || !file){
+    return res.send('you are not allowed for this');
+  }
+  try{
+    res.download('uploads/' + file_name);
+  }catch(error){
+    console.log(error);
+  }
 })
 
 
@@ -109,8 +122,24 @@ app.get("/logout", (req, res) => {
 })
 
 
-app.get('/check', mustBeLoggedIn, (req, res) => {
+app.get('/check', mustBeLoggedIn, async (req, res) => {
   console.log(req.cookies.cookieToken);
+  
+  const username = 'elmir';
+  const owner_address = '0x7fe74FA70e43cfdA3394d4f259297B4fEbDbA052';
+  const token_address = '0x31542952341234';
+  const path_to_file = '/Users/elmir/codeftjs/uploads/codeftjs.zip';
+  const project_name = 'codeftjs';
+  const count = 1;
+//   const response = await TokenOwner.create({
+//     username,
+//     owner_address,
+//     token_address,
+//     path_to_file,
+//     project_name,
+//     count,
+//   });
+
   console.log(parseJwt(req.cookies.cookieToken).username);
   res.send('Everything is working');
 })

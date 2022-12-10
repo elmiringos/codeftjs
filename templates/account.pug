@@ -59,22 +59,19 @@ nav.navbar.px-3
           li.justify-content-center.align-items-center.mb-2.mx-auto
             a.aProfile.text-nowrap(href='#')
               | #{obj.project_name}
-      a.text-createPR.row.text-nowrap.justify-content-center.align-items-center.mx-auto(href='upload')
+      a.text-createPR.row.text-nowrap.justify-content-center.align-items-center.mx-auto(href='/upload')
         | create project
     .blockpurch.col-6
       a.hBlock.row.ext-nowrap.justify-content-center.align-items-center.mt-5.mx-auto(href='purchased.html')
         | Purchased projects
-      ul.text-center.mt-3.p-0.mx-auto
-        li.justify-content-center.align-items-center.mb-2.mx-auto
-          a.aProfile.col.text-nowrap(href='#')
-            | here someone&rsquo;s project one
-          a.col(href='#')
-            img.buttonDownload(src='img/DownloadButton.svg' alt='')
-        li.justify-content-center.align-items-center.mb-2.mx-auto
-          a.aProfile.col.text-nowrap(href='#')
-            | here someone&rsquo;s project two
-          a.col(href='#')
-            img.buttonDownload(src='img/DownloadButton.svg' alt='')
+      each obj in purchasedProjects
+        ul.text-center.mt-3.p-0.mx-auto
+          li.justify-content-center.align-items-center.mb-2.mx-auto
+            a.aProfile.col.text-nowrap(href='#')
+              | #{obj.project_name}
+            a.col(href='/file/' + obj.project_name + '.zip')
+              img.buttonDownload(src='img/DownloadButton.svg' alt='')
+
 script(src='https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js')
 script.
   var scene = document.getElementById('scene');
